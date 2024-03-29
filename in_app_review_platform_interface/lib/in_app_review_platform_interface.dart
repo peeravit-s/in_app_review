@@ -1,5 +1,5 @@
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:in_app_review_platform_interface/method_channel_in_app_review.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 /// The interface that implementations of in_app_review must implement.
 ///
@@ -51,6 +51,16 @@ abstract class InAppReviewPlatform extends PlatformInterface {
   /// https://developer.apple.com/design/human-interface-guidelines/macos/system-capabilities/ratings-and-reviews/
   Future<void> requestReview() {
     throw UnimplementedError('requestReview() has not been implemented.');
+  }
+
+  /// Attempts to show the huawei AppGallery review dialog.
+  ///
+  /// Users have installed AppGallery 11.3.2.302 or later and signed in using HUAWEI IDs.
+  ///
+  /// More info and guidance:
+  /// https://developer.huawei.com/consumer/en/doc/AppGallery-connect-Guides/agc-comments-develop-0000001062858332
+  Future<void> requestHuaweiReview() {
+    throw UnimplementedError('requestHuaweiReview() has not been implemented.');
   }
 
   /// Opens the Play Store on Android, the App Store with a review

@@ -40,6 +40,8 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
 
     private ReviewInfo reviewInfo;
 
+    private Result result;
+
     private final String TAG = "InAppReviewPlugin";
 
     @Override
@@ -56,6 +58,7 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+        this.result = result;
         Log.i(TAG, "onMethodCall: " + call.method);
         switch (call.method) {
             case "isAvailable":
@@ -67,6 +70,8 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
             case "openStoreListing":
                 openStoreListing(result);
                 break;
+            case "requestHuaweiReview":
+                requestHuaweiReview(result);
             default:
                 result.notImplemented();
                 break;
@@ -92,6 +97,64 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
         channel.setMethodCallHandler(null);
         context = null;
+    }
+
+    @Override
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (result != null) {
+            if (requestCode == 1001) {
+                if (resultCode == RESULT_OK || resultCode == 102 || resultCode == 103) {
+                    result.success(true);
+                } else {
+                    String errorMessage;
+                    switch (resultCode) {
+                        case 0:
+                            errorMessage = "Internal Error"; // More descriptive than "Unknown error"
+                            break;
+                        case 101:
+                            errorMessage = "The app has not been released on AppGallery";
+                            break;
+                        case 104:
+                            errorMessage = "The HUAWEI ID sign-in status is invalid";
+                            break;
+                        case 105:
+                            errorMessage = "The user does not meet the conditions for displaying the comment pop-up";
+                            break;
+                        case 106:
+                            errorMessage = "The commenting function is disabled";
+                            break;
+                        case 107:
+                            errorMessage = "The in-app commenting service is not supported";
+                            break;
+                        case 108:
+                            errorMessage = "The user canceled the comment.";
+                            break;
+                        default:
+                            errorMessage = "Unexpected result code: " + resultCode; // Handle unknown codes
+                    }
+                    result.error(String.valueOf(resultCode), "error", errorMessage);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isHuaweiDevice(final Result result) {
+        // Check if device is Huawei
+        String manufacturer = android.os.Build.MANUFACTURER;
+        String brand = android.os.Build.BRAND;
+        final boolean isHuawei = manufacturer.toLowerCase().contains("huawei") || brand.toLowerCase().contains("huawei");
+        Log.i(TAG, "isHuaweiDevice: " + isHuawei);
+        return isHuawei;
+    }
+
+    private void requestHuaweiReview(final Result result) {
+        // Request AppGallery review dialog
+        Log.i(TAG, "requestHuaweiReview: called");
+        Intent intent = new Intent("com.huawei.appmarket.intent.action.guidecomment");
+        intent.setPackage("com.huawei.appmarket");
+        activity.startActivityForResult(intent, 1001);
     }
 
     private void isAvailable(final Result result) {
@@ -184,7 +247,7 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
     private boolean isPlayStoreInstalled() {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                context.getPackageManager().getPackageInfo("com.android.vending",  PackageManager.PackageInfoFlags.of(0));
+                context.getPackageManager().getPackageInfo("com.android.vending", PackageManager.PackageInfoFlags.of(0));
             } else {
                 context.getPackageManager().getPackageInfo("com.android.vending", 0);
             }

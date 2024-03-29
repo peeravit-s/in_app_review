@@ -30,6 +30,17 @@ class MethodChannelInAppReview extends InAppReviewPlatform {
   Future<void> requestReview() => _channel.invokeMethod('requestReview');
 
   @override
+  Future<HuaweiReview> requestHuaweiReview() async {
+    try {
+      bool result = await _channel.invokeMethod('requestHuaweiReview');
+      return HuaweiReview('success', '-1', result);
+    } on PlatformException catch (e) {
+      // Throw a specific exception for Huawei review errors
+      return HuaweiReview('Failed to request Huawei in-app review: $e', e.code, false);
+    }
+  }
+
+  @override
   Future<void> openStoreListing({
     String? appStoreId,
     String? microsoftStoreId,
@@ -62,4 +73,12 @@ class MethodChannelInAppReview extends InAppReviewPlatform {
     if (!await canLaunchUrlString(url)) return;
     await launchUrlString(url, mode: LaunchMode.externalNonBrowserApplication);
   }
+}
+
+class HuaweiReview {
+  final String message;
+  final String code;
+  final bool success;
+
+  HuaweiReview(this.message, this.code, this.success);
 }

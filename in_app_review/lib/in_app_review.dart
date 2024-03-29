@@ -30,6 +30,14 @@ class InAppReview {
   /// https://developer.apple.com/design/human-interface-guidelines/macos/system-capabilities/ratings-and-reviews/
   Future<void> requestReview() => InAppReviewPlatform.instance.requestReview();
 
+  /// Attempts to show the huawei AppGallery review dialog.
+  ///
+  /// Users have installed AppGallery 11.3.2.302 or later and signed in using HUAWEI IDs.
+  ///
+  /// More info and guidance:
+  /// https://developer.huawei.com/consumer/en/doc/AppGallery-connect-Guides/agc-comments-develop-0000001062858332
+  Future<void> requestHuaweiReview() => InAppReviewPlatform.instance.requestHuaweiReview();
+
   /// Opens the Play Store on Android, the App Store with a review
   /// screen on iOS & MacOS and the Microsoft Store on Windows.
   ///
