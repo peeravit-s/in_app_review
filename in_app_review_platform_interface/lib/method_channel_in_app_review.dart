@@ -37,6 +37,8 @@ class MethodChannelInAppReview extends InAppReviewPlatform {
     } on PlatformException catch (e) {
       // Throw a specific exception for Huawei review errors
       return HuaweiReview('Failed to request Huawei in-app review: $e', e.code, false);
+    } catch (e) {
+      return HuaweiReview('Failed to request Huawei in-app review: $e', '999', false);
     }
   }
 
