@@ -99,11 +99,10 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
         context = null;
     }
 
-    @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         if (result != null) {
             if (requestCode == 1001) {
-                if (resultCode == RESULT_OK || resultCode == 102 || resultCode == 103) {
+                if (resultCode == -1 || resultCode == 102 || resultCode == 103) {
                     result.success(true);
                 } else {
                     String errorMessage;
