@@ -24,11 +24,12 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
+import io.flutter.plugin.common.PluginRegistry;
 
 /**
  * InAppReviewPlugin
  */
-public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
+public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.ActivityResultListener {
     /// The MethodChannel that will the communication between Flutter and native Android
     ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -99,6 +100,7 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
         context = null;
     }
 
+    @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         if (result != null) {
             if (requestCode == 1001) {
@@ -137,15 +139,6 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
             }
         }
         return false;
-    }
-
-    private boolean isHuaweiDevice(final Result result) {
-        // Check if device is Huawei
-        String manufacturer = android.os.Build.MANUFACTURER;
-        String brand = android.os.Build.BRAND;
-        final boolean isHuawei = manufacturer.toLowerCase().contains("huawei") || brand.toLowerCase().contains("huawei");
-        Log.i(TAG, "isHuaweiDevice: " + isHuawei);
-        return isHuawei;
     }
 
     private void requestHuaweiReview(final Result result) {
