@@ -91,7 +91,7 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
 
     @Override
     public void onDetachedFromActivity() {
-        activity = null;
+//        activity = null;
     }
 
     @Override
