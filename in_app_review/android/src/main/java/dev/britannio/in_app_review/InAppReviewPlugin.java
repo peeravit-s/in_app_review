@@ -102,6 +102,8 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
 
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, String.valueOf(resultCode));
+        Log.i(TAG, String.valueOf(requestCode));
         if (result != null) {
             if (requestCode == 1001) {
                 if (resultCode == -1 || resultCode == 102 || resultCode == 103) {
