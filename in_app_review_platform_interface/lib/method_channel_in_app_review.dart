@@ -38,7 +38,7 @@ class MethodChannelInAppReview extends InAppReviewPlatform {
       // Throw a specific exception for Huawei review errors
       return HuaweiReview('Failed to request Huawei in-app review: $e', e.code, false);
     } on MissingPluginException catch (e) {
-      return HuaweiReview('Failed to request Huawei in-app review: $e', '888', false);
+      return HuaweiReview('Failed to request Huawei in-app review: ${e.message}', '888', false);
     } catch (e) {
       return HuaweiReview('Failed to request Huawei in-app review: $e', '999', false);
     }
