@@ -145,12 +145,14 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
         // Request AppGallery review dialog
         Log.i(TAG, "requestHuaweiReview: called");
         try {
-            Intent intent = new Intent("com.huawei.appmarket.intent.action.guidecomment");
-            intent.setPackage("com.huawei.appmarket");
-            activity.startActivityForResult(intent, 1001);
-            Log.i(TAG, "requestHuaweiReview: Activity started.");
+            result.success(true);
+//            Intent intent = new Intent("com.huawei.appmarket.intent.action.guidecomment");
+//            intent.setPackage("com.huawei.appmarket");
+//            activity.startActivityForResult(intent, 1001);
+//            Log.i(TAG, "requestHuaweiReview: Activity started.");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
+            result.success(false);
         }
     }
 
