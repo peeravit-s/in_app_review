@@ -59,7 +59,7 @@ abstract class InAppReviewPlatform extends PlatformInterface {
   ///
   /// More info and guidance:
   /// https://developer.huawei.com/consumer/en/doc/AppGallery-connect-Guides/agc-comments-develop-0000001062858332
-  Future<void> requestHuaweiReview() {
+  Future<HuaweiReview> requestHuaweiReview() {
     throw UnimplementedError('requestHuaweiReview() has not been implemented.');
   }
 
