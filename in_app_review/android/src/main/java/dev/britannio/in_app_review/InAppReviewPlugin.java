@@ -102,45 +102,42 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
 
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(TAG, result.toString());
-        Log.i(TAG, "requestCode: " + requestCode);
-        Log.i(TAG, "resultCode: " + resultCode);
-//        if (result != null) {
-        if (requestCode == 1001) {
-            if (resultCode == -1 || resultCode == 102 || resultCode == 103) {
-                result.success(true);
-            } else {
-                String errorMessage;
-                switch (resultCode) {
-                    case 0:
-                        errorMessage = "Internal Error"; // More descriptive than "Unknown error"
-                        break;
-                    case 101:
-                        errorMessage = "The app has not been released on AppGallery";
-                        break;
-                    case 104:
-                        errorMessage = "The HUAWEI ID sign-in status is invalid";
-                        break;
-                    case 105:
-                        errorMessage = "The user does not meet the conditions for displaying the comment pop-up";
-                        break;
-                    case 106:
-                        errorMessage = "The commenting function is disabled";
-                        break;
-                    case 107:
-                        errorMessage = "The in-app commenting service is not supported";
-                        break;
-                    case 108:
-                        errorMessage = "The user canceled the comment.";
-                        break;
-                    default:
-                        errorMessage = "Unexpected result code: " + resultCode; // Handle unknown codes
+        if (result != null) {
+            if (requestCode == 1001) {
+                if (resultCode == -1 || resultCode == 102 || resultCode == 103) {
+                    result.success(true);
+                } else {
+                    String errorMessage;
+                    switch (resultCode) {
+                        case 0:
+                            errorMessage = "Internal Error"; // More descriptive than "Unknown error"
+                            break;
+                        case 101:
+                            errorMessage = "The app has not been released on AppGallery";
+                            break;
+                        case 104:
+                            errorMessage = "The HUAWEI ID sign-in status is invalid";
+                            break;
+                        case 105:
+                            errorMessage = "The user does not meet the conditions for displaying the comment pop-up";
+                            break;
+                        case 106:
+                            errorMessage = "The commenting function is disabled";
+                            break;
+                        case 107:
+                            errorMessage = "The in-app commenting service is not supported";
+                            break;
+                        case 108:
+                            errorMessage = "The user canceled the comment.";
+                            break;
+                        default:
+                            errorMessage = "Unexpected result code: " + resultCode; // Handle unknown codes
+                    }
+                    result.error(String.valueOf(resultCode), "error", errorMessage);
                 }
-                result.error(String.valueOf(resultCode), "error", errorMessage);
+                return true;
             }
-            return true;
         }
-//        }
         return false;
     }
 
