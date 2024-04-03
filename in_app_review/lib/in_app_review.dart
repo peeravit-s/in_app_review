@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:in_app_review_platform_interface/in_app_review_platform_interface.dart';
+import 'package:in_app_review_platform_interface/method_channel_in_app_review.dart';
 
 class InAppReview {
   InAppReview._();
@@ -36,7 +37,7 @@ class InAppReview {
   ///
   /// More info and guidance:
   /// https://developer.huawei.com/consumer/en/doc/AppGallery-connect-Guides/agc-comments-develop-0000001062858332
-  Future<void> requestHuaweiReview() => InAppReviewPlatform.instance.requestHuaweiReview();
+  Future<HuaweiReview> requestHuaweiReview() => InAppReviewPlatform.instance.requestHuaweiReview();
 
   /// Opens the Play Store on Android, the App Store with a review
   /// screen on iOS & MacOS and the Microsoft Store on Windows.
