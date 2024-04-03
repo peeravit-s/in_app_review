@@ -104,6 +104,7 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         if (result != null) {
             if (requestCode == 1001) {
+                Log.i(TAG, "onActivityResult 1001 resultCode: " + resultCode);
                 if (resultCode == -1 || resultCode == 102 || resultCode == 103) {
                     result.success(true);
                 } else {
@@ -145,11 +146,10 @@ public class InAppReviewPlugin implements FlutterPlugin, MethodCallHandler, Acti
         // Request AppGallery review dialog
         Log.i(TAG, "requestHuaweiReview: called");
         try {
-            result.success(true);
-//            Intent intent = new Intent("com.huawei.appmarket.intent.action.guidecomment");
-//            intent.setPackage("com.huawei.appmarket");
-//            activity.startActivityForResult(intent, 1001);
-//            Log.i(TAG, "requestHuaweiReview: Activity started.");
+            Intent intent = new Intent("com.huawei.appmarket.intent.action.guidecomment");
+            intent.setPackage("com.huawei.appmarket");
+            activity.startActivityForResult(intent, 1001);
+            Log.i(TAG, "requestHuaweiReview: Activity started.");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
             result.success(false);
